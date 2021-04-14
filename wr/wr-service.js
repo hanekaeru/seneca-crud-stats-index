@@ -36,9 +36,13 @@ var workrequest = function(options) {
 
     // GET ID
     this.add('wr:listid', function(msg, done) {
-        let item = values.filter(value => value.data[0].id == msg.data.id)[0];
-        item.cmd = msg.cmd;
-        done(null, item);
+        if(Object.keys(msg.data.err).length === 0) {
+            let item = values.filter(value => value.data[0].id == msg.data.id)[0];
+            item.cmd = msg.cmd;
+            done(null, item);
+        } else {
+            done(null, {success:false, msg: "query not possible with wr_id"});
+        }
     });
 
     // GET
@@ -127,11 +131,32 @@ var workrequest = function(options) {
             } else {
                 item.success = false;
                 item.msg = "wr is already closed";
+                
             }
             values.push(item);
             done(null, item);
         }
     })
+
+    // SEARCH
+    this.add('wr:search', function(msg, done) {
+        let key = msg.data.key;
+        let value = msg.data.value;
+
+        if(key !== "search") {
+            let item = {
+                success: false,
+                msg: "query parameter invalid"
+            };
+            done(null, item);
+        }
+
+        this.act({index:'search', key:key, value:value, allWR:values}, function(error, result) {
+            //console.log(result);
+            done(null, result);
+        });
+        
+    });
 
     return 'wr';
 }
@@ -176,3 +201,4 @@ function findHighestIdValue() {
 seneca.use(workrequest);
 seneca.use('repl', {port: 10021});
 seneca.listen(4000);
+seneca.client({port:4002, pin: 'index:*'});

@@ -69,6 +69,7 @@ var statistics = function(options) {
             }
             
             nb_opened = nb_created - nb_deleted - nb_closed;
+            // console.log("Open: " + nb_opened + "Created: " + nb_created + "Deleted: " + nb_deleted + "Closed: " + nb_closed)
 
             let item = {
                 success: true,

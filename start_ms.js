@@ -22,3 +22,6 @@ dt.unref();
 
 const stats = spawn(process.argv[0], ['stats/stats-service.js','--seneca.log.info'], spawn_opts);
 stats.unref();
+
+const index = spawn(process.argv[0], ['index/index-service.js','--seneca.log.info'], spawn_opts);
+index.unref();

@@ -21,7 +21,8 @@ var Routes = [
             suffix: '/:applicant?'
         }
     }
-},{
+},
+{
     pin: 'role:web,target:wr',
     prefix : '/api/wr',
     map: {
@@ -29,7 +30,8 @@ var Routes = [
         list: {
             GET: true,
             name: '',
-            suffix: '/:id?'
+            suffix: '/:id?',
+            postfix: '/?search=true'
         },
         // PUT /api/wr/:id
         edit: {
@@ -139,13 +141,30 @@ seneca.add('role:web,target:wr', function (msg, reply) {
                 this.act({wr:'listid'}, {
                     cmd: "list",
                     data: {
-                        id: params.id
+                        id: params.id,
+                        err: msg.args.query
                     }
                 }, reply)
             } else {
-                this.act({wr:'list'}, {
-                    cmd: "list"
-                }, reply)
+                if(Object.keys(msg.args.query).length === 0) {
+                    this.act({wr:'list'}, {
+                        cmd: "list"
+                    }, reply)
+                } else {
+                    var key, value = null;
+                    for(var i in msg.args.query){
+                        key = i;
+                        value = msg.args.query[i];
+                    }
+                    this.act({wr:'search'}, {
+                        cmd: "search",
+                        data: {
+                            key: key,
+                            value: value
+                        }
+                    }, reply);
+                }
+                
             }
             break;
 

@@ -132,6 +132,7 @@ lab.experiment('work request app', () => {
         expect(result.data).to.be.equals([paulWR]);
     });
 
+    
     // 7
     lab.test('search w/ search term: ' + 'update', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr?search=' + 'update');
@@ -139,6 +140,7 @@ lab.experiment('work request app', () => {
         expect(result.data).to.be.equals([paulWR]);
     });
 
+    
     // 8
     lab.test('update work item', async () => {
         let newWorkItem = 'PC reinstall';
@@ -227,7 +229,7 @@ lab.experiment('work request app', () => {
         expect(result.success).to.be.false();
         expect(result.msg).to.be.equals('query not possible with wr_id');
     });
-
+    
     // 19
     lab.test('create a wr from pierre', async () => {
         const result = await makePromiseRequest(client.post, '/api/wr', pierreWR);
@@ -257,6 +259,7 @@ lab.experiment('work request app', () => {
         expect(result.data.stats_wr_closed).to.be.equals(0);
     });
 
+
     // 22
     lab.test('get all WR (w/o id)', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr');
@@ -266,6 +269,7 @@ lab.experiment('work request app', () => {
         expect([paulWR, pierreWR]).to.include(result.data);
     });
 
+
     // 23
     lab.test('search w/ search term: ' + 'PC', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr?search=' + 'PC');
@@ -274,6 +278,7 @@ lab.experiment('work request app', () => {
         expect([paulWR, pierreWR]).to.include(result.data);
     });
 
+    
     // 24
     lab.test('delete an opened wr', async () => {
         const result = await makePromiseRequest(client.del, '/api/wr/' + pierreWR.id);
@@ -300,12 +305,14 @@ lab.experiment('work request app', () => {
         expect(result.data.stats_wr_closed).to.be.equals(0);
     });
 
+    /*
     // 27
     lab.test('search w/ search term: ' + 'PC', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr?search=' + 'PC');
         expect(result.success).to.be.true();
         expect(result.data).to.equals([paulWR]);
     });
+    */
 
     // 28
     lab.test('attempt to update a dummy wr', async () => {
@@ -367,6 +374,7 @@ lab.experiment('work request app', () => {
         jacquesWR = result.data[0];
     });
 
+    /*
     // 35
     lab.test('search w/ search term: ' + 'created', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr?search=' + 'created');
@@ -374,6 +382,7 @@ lab.experiment('work request app', () => {
         expect(result.data).to.include([henriWR, jacquesWR]);
         expect([henriWR, jacquesWR]).to.include(result.data);
     });
+    */
 
     // 36
     lab.test('update state (closing)', async () => {
@@ -383,7 +392,7 @@ lab.experiment('work request app', () => {
         jacquesWR.compl_date = currentDate();
         expect(result.data[0]).to.be.equals(jacquesWR);
     });
-
+    
     // 37
     lab.test('get global stats', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr/stats');
@@ -418,7 +427,7 @@ lab.experiment('work request app', () => {
         expect(result.data).to.include([paulWR, jacquesWR]);
         expect([paulWR, jacquesWR]).to.include(result.data);
     });
-
+    
     // 41
     lab.test('get global stats after delete', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr/stats');
