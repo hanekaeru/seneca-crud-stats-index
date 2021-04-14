@@ -120,21 +120,25 @@ var workrequest = function(options) {
             let item = values.filter(value => value.data[0].id == msg.data.id)[0];
             if(!item) {
                 done(null, {success:false, msg:"wr not found"});
-            }
-            removeElement(values, item);
-            if(item.data[0].state === "created") {
-                item.success = true;
-                let updated_status = status.filter(value => value.id == msg.data.id)[0];
-                removeElement(status, updated_status);
-                // On ajoute à notre status une WR created.
-                status.push({id: item.data[0].id, applicant: item.data[0].applicant, state: "deleted"});
             } else {
-                item.success = false;
-                item.msg = "wr is already closed";
-                
+                console.log("Values avant : " + JSON.stringify(values));
+                removeElement(values, item);
+                console.log("Values après : " + JSON.stringify(values));
+                if(item.data[0].state === "created") {
+                    item.success = true;
+                    let updated_status = status.filter(value => value.id == msg.data.id)[0];
+                    removeElement(status, updated_status);
+                    // On ajoute à notre status une WR created.
+                    status.push({id: item.data[0].id, applicant: item.data[0].applicant, state: "deleted"});
+                    //values.push(item);
+                } else if(item.data[0].state === "closed") {
+                    item.success = false;
+                    item.msg = "wr is already closed";
+                    
+                }
+                values.push(item);
+                done(null, item);
             }
-            values.push(item);
-            done(null, item);
         }
     })
 
@@ -150,6 +154,8 @@ var workrequest = function(options) {
             };
             done(null, item);
         }
+
+        console.log(JSON.stringify(values));
 
         this.act({index:'search', key:key, value:value, allWR:values}, function(error, result) {
             //console.log(result);

@@ -295,6 +295,7 @@ lab.experiment('work request app', () => {
         expect(result.data.global_stats_wr_closed).to.be.equals(1);
     });
 
+    
     // 26
     lab.test('get user stats for ' + pierreWR.applicant, async () => {
         const result = await makePromiseRequest(client.get, '/api/wr/stats/' + pierreWR.applicant);
@@ -305,14 +306,12 @@ lab.experiment('work request app', () => {
         expect(result.data.stats_wr_closed).to.be.equals(0);
     });
 
-    /*
     // 27
     lab.test('search w/ search term: ' + 'PC', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr?search=' + 'PC');
         expect(result.success).to.be.true();
         expect(result.data).to.equals([paulWR]);
     });
-    */
 
     // 28
     lab.test('attempt to update a dummy wr', async () => {
@@ -364,6 +363,7 @@ lab.experiment('work request app', () => {
         expect(result.data.stats_wr_closed).to.be.equals(0);
     });
 
+        
     // 34
     lab.test('create a wr from jacques', async () => {
         const result = await makePromiseRequest(client.post, '/api/wr', jacquesWR);
@@ -374,7 +374,7 @@ lab.experiment('work request app', () => {
         jacquesWR = result.data[0];
     });
 
-    /*
+
     // 35
     lab.test('search w/ search term: ' + 'created', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr?search=' + 'created');
@@ -382,7 +382,7 @@ lab.experiment('work request app', () => {
         expect(result.data).to.include([henriWR, jacquesWR]);
         expect([henriWR, jacquesWR]).to.include(result.data);
     });
-    */
+
 
     // 36
     lab.test('update state (closing)', async () => {
@@ -393,6 +393,7 @@ lab.experiment('work request app', () => {
         expect(result.data[0]).to.be.equals(jacquesWR);
     });
     
+        
     // 37
     lab.test('get global stats', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr/stats');
@@ -402,6 +403,7 @@ lab.experiment('work request app', () => {
         expect(result.data.global_stats_wr_closed).to.be.equals(2);
     });
 
+    
     // 38
     lab.test('get user stats for ' + jacquesWR.applicant, async () => {
         const result = await makePromiseRequest(client.get, '/api/wr/stats/' + jacquesWR.applicant);
@@ -427,7 +429,8 @@ lab.experiment('work request app', () => {
         expect(result.data).to.include([paulWR, jacquesWR]);
         expect([paulWR, jacquesWR]).to.include(result.data);
     });
-    
+
+
     // 41
     lab.test('get global stats after delete', async () => {
         const result = await makePromiseRequest(client.get, '/api/wr/stats');

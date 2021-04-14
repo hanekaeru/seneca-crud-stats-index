@@ -21,7 +21,6 @@ var indexation = function(options) {
         miniSearch.addAll(savedData);
 
         let results = miniSearch.search(value);
-        console.log("Results : " + results);
 
         let item;
         if(results.length === 0) {

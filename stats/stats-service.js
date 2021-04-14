@@ -8,6 +8,8 @@ var statistics = function(options) {
         // Améliorer en message asynchrone.
         this.act('wr:status', function(err, result) {
 
+            console.log(JSON.stringify(result));
+
             if(err) console.log(err);
             var nb_created = result.data.length;
             var nb_deleted = 0;
@@ -27,7 +29,7 @@ var statistics = function(options) {
             
             nb_opened = nb_created - nb_deleted - nb_closed;
 
-            //console.log("Open: " + nb_opened + "Created: " + nb_created + "Deleted: " + nb_deleted + "Closed: " + nb_closed)
+            console.log("Open: " + nb_opened + " Created: " + nb_created + " Deleted: " + nb_deleted + " Closed: " + nb_closed)
 
             let item = {
                 success: true,
